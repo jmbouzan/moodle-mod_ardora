@@ -135,6 +135,4 @@ $string['embedheightexplain'] = 'A altura do marco do escenario.';
 $string['embedwidthexplain'] = 'A anchura do marco do escenario.';
 $string['embedwidth'] = 'Anchura';
 $string['embedheight'] = 'Altura';
-
-$string['privacy:metadata'] = 'O plugin Ardora non garda ningun dato de caracter persoal.';
 $string['courseidnotfound'] = 'Identificador de curso non atopado';

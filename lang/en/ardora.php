@@ -136,4 +136,3 @@ $string['embedheightexplain'] = 'The height of the stage frame.';
 $string['embedwidthexplain'] = 'The width of the stage frame.';
 $string['embedwidth'] = 'Width';
 $string['embedheight'] = 'Height';
-$string['privacy:metadata'] = 'The File ardora plugin does not store any personal data.';

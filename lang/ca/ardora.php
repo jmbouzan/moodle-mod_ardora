@@ -135,5 +135,4 @@ $string['embedheightexplain'] = 'L\'alçada del marc de l\'escenari.';
 $string['embedwidthexplain'] = 'L\'amplada del marc de l\'escenari.';
 $string['embedwidth'] = 'Amplada';
 $string['embedheight'] = 'Alçada';
-$string['privacy:metadata'] = 'El plugin Ardora no guarda cap dada de caràcter personal.';
 $string['courseidnotfound'] = "No s'ha trobat l'identificador del curs.";

@@ -135,5 +135,4 @@ $string['embedheightexplain'] = 'Eszenatokiko markoaren altuera.';
 $string['embedwidthexplain'] = 'Eszenatokiko markoaren zabalera.';
 $string['embedwidth'] = 'Zabalera';
 $string['embedheight'] = 'Altuera';
-$string['privacy:metadata'] = 'Ardora pluginak ez du datu pertsonalik gordetzen.';
 $string['courseidnotfound'] = 'Ikastaroaren IDa ez da aurkitu.';

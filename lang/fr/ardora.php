@@ -135,5 +135,4 @@ $string['embedheightexplain'] = 'La hauteur de la scène.';
 $string['embedwidthexplain'] = 'La largeur de la scène.';
 $string['embedwidth'] = 'Largeur';
 $string['embedheight'] = 'Hauteur';
-$string['privacy:metadata'] = 'Le plugin Ardora ne stocke aucune donnée personnelle.';
 $string['courseidnotfound'] = "L'ID du cours n'a pas été trouvé.";

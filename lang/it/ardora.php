@@ -135,5 +135,4 @@ $string['embedheightexplain'] = 'L\'altezza del frame di scena.';
 $string['embedwidthexplain'] = 'La larghezza del frame di scena.';
 $string['embedwidth'] = 'Larghezza';
 $string['embedheight'] = 'Altezza';
-$string['privacy:metadata'] = 'Il plugin Ardora non memorizza dati personali.';
 $string['courseidnotfound'] = "L'ID del corso non è stato trovato.";
