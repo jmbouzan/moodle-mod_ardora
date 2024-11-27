@@ -1,18 +1,5 @@
-This file is part of Moodle - http://moodle.org/
+The plugin allows uploading to a Moodle course, in its first version, three types of content created with Ardora: interactive activities, activity packs and web spaces.
 
-Moodle is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+By means of this plugin, teachers and students will have a detailed report of the work done, including data such as date, start and end time, activities correctly solved, number of incorrect answers, number of accesses or score obtained.
 
-Moodle is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
-copyright 2024 José Manuel Bouzán Matanza (https://www.webardora.net)
-Created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
-license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+The teacher can obtain this report for all the students enrolled in a course while the students can only consult their own data.
