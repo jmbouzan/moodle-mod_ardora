@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2025011400; // The current module version (Date: YYYYMMDDXX).
-$plugin->requires  = 2023042400; // Requires this Moodle version.
+$plugin->requires  = 2022112800; // Requires Moodle 4.1.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release   = '1.2';
 $plugin->component = 'mod_ardora'; // Full name of the plugin (used for diagnostics).
