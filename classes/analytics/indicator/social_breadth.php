@@ -18,7 +18,7 @@
  * Social breadth indicator - ardora.
  * created from the "Resource module" version created by 2017 David Monllao {@link http://www.davidmonllao.com}
  * @package   mod_ardora
- * @copyright 2023 José Manuel Bouzán Matanza
+ * @copyright 2025 José Manuel Bouzán Matanza
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -60,7 +60,8 @@ class social_breadth extends activity_base {
      *
      * This function returns the type of social breadth.
      *
-     * @return string The indicator type.
+     * @param \cm_info $cm The course module information.
+     * @return string The cognitive depth level.
      */
     public function get_social_breadth_level(\cm_info $cm) {
         return self::SOCIAL_LEVEL_1;

@@ -18,7 +18,7 @@
  * Cognitive depth indicator - ardora.
  * created from the "Resource module" version created by 2017 David Monllao {@link http://www.davidmonllao.com}
  * @package   mod_ardora
- * @copyright 2023 José Manuel Bouzán Matanza
+ * @copyright 2025 José Manuel Bouzán Matanza
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -57,11 +57,12 @@ class cognitive_depth extends activity_base {
         return self::INDICATOR_COGNITIVE;
     }
     /**
-     * Gets cognitive depth level.
+     * Gets the cognitive depth level.
      *
-     * This function returns the cognitive level.
+     * This function returns the cognitive level for the provided course module.
      *
-     * @return string The indicator type.
+     * @param \cm_info $cm The course module information.
+     * @return string The cognitive depth level.
      */
     public function get_cognitive_depth_level(\cm_info $cm) {
         return self::COGNITIVE_LEVEL_1;
