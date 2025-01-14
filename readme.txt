@@ -13,6 +13,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-copyright 2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+copyright 2025 José Manuel Bouzán Matanza (https://www.webardora.net)
 Created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
 license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

@@ -18,7 +18,7 @@
  * Private ardora module utility functions
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
- * @copyright  2023 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2025 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -163,7 +163,12 @@ EOF;
 }
 
 /**
- * Internal function - create click to open text with link.
+ * Internal function - creates "click to open" text with a link.
+ *
+ * @param stored_file $file The file object representing the file to link to.
+ * @param int $revision The revision number of the file.
+ * @param string $extra Additional attributes for the HTML link tag.
+ * @return string The HTML string with the "click to open" link.
  */
 function ardora_get_clicktoopen($file, $revision, $extra='') {
     global $CFG;
@@ -178,7 +183,11 @@ function ardora_get_clicktoopen($file, $revision, $extra='') {
 }
 
 /**
- * Internal function - create click to open text with link.
+ * Internal function - creates "click to download" text with a link.
+ *
+ * @param stored_file $file The file object representing the file to link to.
+ * @param int $revision The revision number of the file.
+ * @return string The HTML string with the "click to download" link.
  */
 function ardora_get_clicktodownload($file, $revision) {
     global $CFG;

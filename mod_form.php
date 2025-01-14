@@ -18,7 +18,7 @@
  * ardora configuration form
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2025 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die;
@@ -137,6 +137,8 @@ class mod_ardora_mod_form extends moodleform_mod {
 
     /**
      * Preprocesses the form data before it is displayed.
+     *
+     * @param array $defaultvalues Default values for the form elements.
      */
     public function data_preprocessing(&$defaultvalues) {
         if ($this->current->instance && !$this->current->tobemigrated) {
@@ -148,6 +150,10 @@ class mod_ardora_mod_form extends moodleform_mod {
 
     /**
      * Validates the form data.
+     *
+     * @param array $data The data submitted from the form.
+     * @param array $files Files uploaded in the form submission.
+     * @return array An array of validation errors, if any. Empty array if no errors.
      */
     public function validation($data, $files) {
         global $CFG;

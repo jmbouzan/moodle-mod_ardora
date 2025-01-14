@@ -18,15 +18,15 @@
  * ardora module version information
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2025 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024112700; // The current module version (Date: YYYYMMDDXX).
+$plugin->version   = 2025011400; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires  = 2023042400; // Requires this Moodle version.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release   = '1.1';
+$plugin->release   = '1.2';
 $plugin->component = 'mod_ardora'; // Full name of the plugin (used for diagnostics).
 $plugin->cron      = 0;
