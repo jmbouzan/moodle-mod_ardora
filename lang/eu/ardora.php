@@ -18,12 +18,24 @@
  * Strings for component 'ardora', language 'eu'
  *
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza
+ * @copyright  2025 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['ardora:addinstance'] = 'Gehitu ardora berri bat';
+$string['ardora:exportardora'] = 'Esportatu ardora';
+$string['ardora:grade'] = 'Baloratu Ardoraren bidalketak';
+$string['ardora:view'] = 'Ikusi ardora';
+$string['ardoracontent'] = 'Fitxategiak eta azpidirektorioak';
+$string['ardoradetails_sizedate'] = '{$a->size} {$a->date}';
+$string['ardoradetails_sizetype'] = '{$a->size} {$a->type}';
+$string['ardoradetails_sizetypedate'] = '{$a->size} {$a->type} {$a->date}';
+$string['ardoradetails_typedate'] = '{$a->type} {$a->date}';
+$string['cachedef_courseid_cache'] = 'Ikastaroen IDak saioan gordetzeko cachea.';
 $string['clicktodownload'] = 'Egin klik {$a} estekan fitxategia deskargatzeko.';
 $string['clicktoopen2'] = 'Egin klik {$a} estekan fitxategia ikusteko.';
+$string['completionpassgrade'] = 'Ikasleak jarduera hau osatzeko gainditze kalifikazioa lortu behar du.';
+$string['completionpassgrade_help'] = 'Aukera hau aktibatuta badago, jarduera osatutzat hartuko da soilik ikasleak ezarritako gainditze kalifikazioa lortzen duenean.';
 $string['configdisplayoptions'] = 'Aukeratu eskuragarri egon behar duten aukera guztiak, lehendik dauden ezarpenak ez dira aldatuko. Eutsi sakatuta CTRL tekla hainbat eremu hautatzeko.';
 $string['configframesize'] = 'Web orri bat edo igotako fitxategi bat marko baten barruan bistaratzen denean, balio hau marko nagusiaren altuera da (nabigazioa daukana).';
 $string['configparametersettings'] = 'Honek ezarpen lehenetsia ezartzen du parametroen ezarpenen panelean ardora berriak gehitzean. Lehenengo aldiz egin ondoren, hau erabiltzailearen banakako lehentasuna bihurtzen da.';
@@ -38,6 +50,7 @@ $string['configpopupstatus'] = 'Leiho gainerakorrek lehenetsita egoera barra era
 $string['configpopuptoolbar'] = 'Leiho gainerakorrek lehenetsita tresna barra erakutsi behar al dute?';
 $string['configpopupwidth'] = 'Zein zabalera izan behar luke leiho gainerakor berrien lehenetsitako zabalera?';
 $string['contentheader'] = 'Edukia';
+$string['courseidnotfound'] = 'Ikastaroaren IDa ez da aurkitu.';
 $string['displayoptions'] = 'Bistaratzeko aukerak';
 $string['displayselect'] = 'Bistaratu';
 $string['displayselect_help'] = 'Ezarpen honek, fitxategi motarekin eta nabigatzaileak txertaketa baimentzen duenarekin batera, fitxategia nola bistaratu behar den zehazten du. Aukerak hauek izan daitezke:
@@ -52,6 +65,10 @@ $string['displayselect_help'] = 'Ezarpen honek, fitxategi motarekin eta nabigatz
 $string['displayselect_link'] = 'mod/file/mod';
 $string['displayselectexplain'] = 'Aukeratu bistaratzeko mota, zoritxarrez mota guztiak ez dira egokiak fitxategi guztientzat.';
 $string['dnduploadardora'] = 'Sortu fitxategi ardora';
+$string['embedheight'] = 'Altuera';
+$string['embedheightexplain'] = 'Eszenatokiko markoaren altuera.';
+$string['embedwidth'] = 'Zabalera';
+$string['embedwidthexplain'] = 'Eszenatokiko markoaren zabalera.';
 $string['encryptedcode'] = 'Kode enkriptatua';
 $string['filenotfound'] = 'Fitxategia ez da aurkitu, barkatu.';
 $string['filterfiles'] = 'Erabili iragazkiak fitxategiaren edukian';
@@ -59,6 +76,7 @@ $string['filterfilesexplain'] = 'Hautatu fitxategiaren edukia iragazteko mota, k
 $string['filtername'] = 'Ardora izenen lotura automatikoa';
 $string['forcedownload'] = 'Deskarga behartua';
 $string['framesize'] = 'Markoaren altuera';
+$string['gradingoptions'] = 'Kalifikazio-aukerak';
 $string['indicator:cognitivedepth'] = 'Fitxategiaren sakontasun kognitiboa';
 $string['indicator:cognitivedepth_help'] = 'Adierazle hau ikasleak fitxategi ardora batean lortutako sakontasun kognitiboan oinarritzen da.';
 $string['indicator:cognitivedepthdef'] = 'Fitxategiaren sakontasun kognitiboa';
@@ -69,9 +87,12 @@ $string['indicator:socialbreadth_help'] = 'Adierazle hau ikasleak fitxategi ardo
 $string['indicator:socialbreadthdef'] = 'Fitxategiaren sakontasun soziala';
 $string['indicator:socialbreadthdef_help'] = 'Parte-hartzaileak lortutako konpromiso sozialaren portzentajea da, fitxategi ardora-k eskaintzen duena, analisi-aldian zehar (Mailak = Parte-hartzerik ez, Parte-hartzaile bakarrik)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
+$string['invalidpassinggrade'] = 'Gainditzeko kalifikazioa 0 eta 100 arteko zenbakia izan behar da.';
 $string['legacyfiles'] = 'Ikastaro zaharretako fitxategien migrazioa';
 $string['legacyfilesactive'] = 'Aktibo';
 $string['legacyfilesdone'] = 'Amaituta';
+$string['maximumgrade'] = 'Gehieneko kalifikazioa';
+$string['maximumgrade_help'] = 'Adierazi jarduera honetarako lor daitekeen gehieneko kalifikazioa.';
 $string['modifieddate'] = 'Aldatuta {$a}';
 $string['modulename'] = 'Ardora';
 $string['modulename_help'] = 'Laguntza esplikatzailea hemen';
@@ -80,37 +101,21 @@ $string['modulenameplural'] = 'Fitxategiak';
 $string['notmigrated'] = 'Ardora mota hau ({$a}) oraindik ez da migratu, barkatu.';
 $string['optionsheader'] = 'Bistaratzeko aukerak';
 $string['page-mod-ardora-x'] = 'Edozein fitxategi moduluaren orria';
+$string['passinggrade'] = 'Onartua';
+$string['passinggrade_help'] = 'Erabiltzaile batek jarduera gaindituta kontuan hartzeko lortu behar duen gutxieneko kualifikazioa.';
 $string['pluginadministration'] = 'Fitxategi moduluaren administrazioa';
 $string['pluginname'] = 'Ardora';
-$string['popupheight'] = 'Leiho gainerakorraren altuera (pixel-tan)';
-$string['popupheightexplain'] = 'Leiho gainerakor berrien altuera lehenetsiak zehazten ditu.';
-$string['popupwidth_desc'] = 'Leiho flotantearen zabalera lehenetsia (pixeletan).';
-$string['popupheight_desc'] = 'Leiho flotantearen altuera lehenetsia (pixeletan).';
 $string['popupardora'] = 'Ardora hau leiho gainerakor batean agertu behar da.';
 $string['popupardoralink'] = 'Ez bada agertzen, egin klik hemen: {$a}';
+$string['popupheight'] = 'Leiho gainerakorraren altuera (pixel-tan)';
+$string['popupheight_desc'] = 'Leiho flotantearen altuera lehenetsia (pixeletan).';
+$string['popupheightexplain'] = 'Leiho gainerakor berrien altuera lehenetsiak zehazten ditu.';
 $string['popupwidth'] = 'Leiho gainerakorraren zabalera (pixel-tan)';
+$string['popupwidth_desc'] = 'Leiho flotantearen zabalera lehenetsia (pixeletan).';
 $string['popupwidthexplain'] = 'Leiho gainerakor berrien zabalera lehenetsiak zehazten ditu.';
 $string['printintro'] = 'Ardora deskribapena erakutsi';
 $string['printintroexplain'] = 'Ardora deskribapena edukiaren azpian erakutsi? Bistaratzeko mota batzuek deskribapena ez dute erakutsiko, nahiz eta gaituta egon.';
 $string['privacy:metadata'] = 'Fitxategi ardora plugina ez du datu pertsonalik gordetzen.';
-$string['ardora:addinstance'] = 'Gehitu ardora berri bat';
-$string['ardoracontent'] = 'Fitxategiak eta azpidirektorioak';
-$string['ardoradetails_sizetype'] = '{$a->size} {$a->type}';
-$string['ardoradetails_sizedate'] = '{$a->size} {$a->date}';
-$string['ardoradetails_typedate'] = '{$a->type} {$a->date}';
-$string['ardoradetails_sizetypedate'] = '{$a->size} {$a->type} {$a->date}';
-$string['ardora:exportardora'] = 'Esportatu ardora';
-$string['ardora:view'] = 'Ikusi ardora';
-$string['ardora:grade'] = 'Baloratu Ardoraren bidalketak';
-$string['passinggrade'] = 'Onartua';
-$string['passinggrade_help'] = 'Erabiltzaile batek jarduera gaindituta kontuan hartzeko lortu behar duen gutxieneko kualifikazioa.';
-$string['invalidpassinggrade'] = 'Gainditzeko kalifikazioa 0 eta 100 arteko zenbakia izan behar da.';
-$string['completionpassgrade'] = 'Ikasleak jarduera hau osatzeko gainditze kalifikazioa lortu behar du.';
-$string['completionpassgrade_help'] = 'Aukera hau aktibatuta badago, jarduera osatutzat hartuko da soilik ikasleak ezarritako gainditze kalifikazioa lortzen duenean.';
-$string['maximumgrade'] = 'Gehieneko kalifikazioa';
-$string['maximumgrade_help'] = 'Adierazi jarduera honetarako lor daitekeen gehieneko kalifikazioa.';
-
-$string['gradingoptions'] = 'Kalifikazio-aukerak';
 $string['search:activity'] = 'Ardora';
 $string['selectmainfile'] = 'Mesedez, aukeratu fitxategi nagusia fitxategiaren izenaren ondoan dagoen ikonoan klik eginez.';
 $string['showdate'] = 'Kargatze/aldatze data erakutsi';
@@ -119,10 +124,10 @@ $string['showdate_help'] = 'Kargatze/aldatze data erakusten du fitxategiaren est
 
 Ardora honetan fitxategi bat baino gehiago badago, fitxategi nagusiaren kargatze/aldatze data erakusten da.';
 $string['showsize'] = 'Neurria erakutsi';
+$string['showsize_desc'] = 'Fitxategiaren neurria erakutsi ikastaroko orrian?';
 $string['showsize_help'] = 'Fitxategiaren neurria erakusten du, adibidez "3.1 MB", fitxategiaren esteken ondoan.
 
 Ardora honetan fitxategi bat baino gehiago badago, fitxategi guztien neurria erakusten da.';
-$string['showsize_desc'] = 'Fitxategiaren neurria erakutsi ikastaroko orrian?';
 $string['showtype'] = 'Mota erakutsi';
 $string['showtype_desc'] = 'Fitxategi mota (adibidez, "Word Dokumentua") erakutsi ikastaroko orrian?';
 $string['showtype_help'] = 'Fitxategi mota erakusten du, adibidez "Word Dokumentua", fitxategiaren esteken ondoan.
@@ -131,8 +136,3 @@ Ardora honetan fitxategi bat baino gehiago badago, fitxategi nagusiaren mota era
 
 Fitxategi mota sistemak ezagutzen ez badu, ez da erakutsiko.';
 $string['uploadeddate'] = 'Kargatuta {$a}';
-$string['embedheightexplain'] = 'Eszenatokiko markoaren altuera.';
-$string['embedwidthexplain'] = 'Eszenatokiko markoaren zabalera.';
-$string['embedwidth'] = 'Zabalera';
-$string['embedheight'] = 'Altuera';
-$string['courseidnotfound'] = 'Ikastaroaren IDa ez da aurkitu.';
