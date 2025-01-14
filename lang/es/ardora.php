@@ -18,12 +18,23 @@
  * Strings for component 'ardora', language 'es'
  *
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza
+ * @copyright  2025 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['ardora:addinstance'] = 'Agregar un nuevo ardora';
+$string['ardora:exportardora'] = 'Exportar ardora';
+$string['ardora:view'] = 'Ver ardora';
+$string['ardoracontent'] = 'Archivos y subcarpetas';
+$string['ardoradetails_sizedate'] = '{$a->size} {$a->date}';
+$string['ardoradetails_sizetype'] = '{$a->size} {$a->type}';
+$string['ardoradetails_sizetypedate'] = '{$a->size} {$a->type} {$a->date}';
+$string['ardoradetails_typedate'] = '{$a->type} {$a->date}';
+$string['cachedef_courseid_cache'] = 'Caché para almacenar los IDs de los cursos en la sesión.';
 $string['clicktodownload'] = 'Haz clic en el enlace {$a} para descargar el archivo.';
 $string['clicktoopen2'] = 'Haz clic en el enlace {$a} para ver el archivo.';
+$string['completionpassgrade'] = 'El estudiante debe obtener la calificación de aprobado para completar esta actividad.';
+$string['completionpassgrade_help'] = 'Si esta opción está activada, la actividad se considerará completada únicamente cuando el estudiante alcance la calificación de aprobado especificada.';
 $string['configdisplayoptions'] = 'Selecciona todas las opciones que deberían estar disponibles, las configuraciones existentes no se modificarán. Mantén presionada la tecla CTRL para seleccionar múltiples campos.';
 $string['configframesize'] = 'Cuando una página web o un archivo subido se muestra dentro de un marco, este valor es la altura (en píxeles) del marco superior (que contiene la navegación).';
 $string['configparametersettings'] = 'Esto establece el valor predeterminado para el panel de configuración de Parámetros en el formulario al agregar nuevos ardoras. Después de la primera vez, esto se convierte en una preferencia individual del usuario.';
@@ -38,6 +49,7 @@ $string['configpopupstatus'] = '¿Deberían las ventanas emergentes mostrar la b
 $string['configpopuptoolbar'] = '¿Deberían las ventanas emergentes mostrar la barra de herramientas por defecto?';
 $string['configpopupwidth'] = '¿Qué anchura debería ser la anchura predeterminada para las nuevas ventanas emergentes?';
 $string['contentheader'] = 'Contenido';
+$string['courseidnotfound'] = 'Identificado de curso no encontrado.';
 $string['displayoptions'] = 'Opciones de visualización disponibles';
 $string['displayselect'] = 'Visualización';
 $string['displayselect_help'] = 'Esta configuración, junto con el tipo de archivo y si el navegador permite la inserción, determina cómo se muestra el archivo. Las opciones pueden incluir:
@@ -52,6 +64,10 @@ $string['displayselect_help'] = 'Esta configuración, junto con el tipo de archi
 $string['displayselect_link'] = 'mod/file/mod';
 $string['displayselectexplain'] = 'Elige el tipo de visualización, lamentablemente no todos los tipos son adecuados para todos los archivos.';
 $string['dnduploadardora'] = 'Crear archivo ardora';
+$string['embedheight'] = 'Altura';
+$string['embedheightexplain'] = 'La altura del marco del escenario.';
+$string['embedwidth'] = 'Anchura';
+$string['embedwidthexplain'] = 'La anchura del marco del escenario.';
 $string['encryptedcode'] = 'Código encriptado';
 $string['filenotfound'] = 'Archivo no encontrado, lo sentimos.';
 $string['filterfiles'] = 'Usar filtros en el contenido del archivo';
@@ -59,6 +75,7 @@ $string['filterfilesexplain'] = 'Selecciona el tipo de filtrado de contenido del
 $string['filtername'] = 'Autoenlace de nombres de ardora';
 $string['forcedownload'] = 'Forzar descarga';
 $string['framesize'] = 'Altura del marco';
+$string['gradingoptions'] = 'Opciones de calificación';
 $string['indicator:cognitivedepth'] = 'Profundidad cognitiva del archivo';
 $string['indicator:cognitivedepth_help'] = 'Este indicador se basa en la profundidad cognitiva alcanzada por el estudiante en un ardora de archivo.';
 $string['indicator:cognitivedepthdef'] = 'Profundidad cognitiva del archivo';
@@ -69,9 +86,12 @@ $string['indicator:socialbreadth_help'] = 'Este indicador se basa en la amplitud
 $string['indicator:socialbreadthdef'] = 'Amplitud social del archivo';
 $string['indicator:socialbreadthdef_help'] = 'El participante ha alcanzado este porcentaje del compromiso social ofrecido por los ardoras de archivo durante este intervalo de análisis (Niveles = Sin participación, Participante solo)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
+$string['invalidpassinggrade'] = 'La calificación de aprobación debe ser un número entre 0 y 100.';
 $string['legacyfiles'] = 'Migración de archivos de cursos antiguos';
 $string['legacyfilesactive'] = 'Activo';
 $string['legacyfilesdone'] = 'Finalizado';
+$string['maximumgrade'] = 'Nota máxima';
+$string['maximumgrade_help'] = 'Especifique la nota máxima que se puede obtener en esta actividad.';
 $string['modifieddate'] = 'Modificado {$a}';
 $string['modulename'] = 'Ardora';
 $string['modulename_help'] = 'Ayuda explicativa aquí';
@@ -80,36 +100,21 @@ $string['modulenameplural'] = 'Archivos';
 $string['notmigrated'] = 'Este tipo de ardora heredado ({$a}) aún no ha sido migrado, lo sentimos.';
 $string['optionsheader'] = 'Opciones de visualización';
 $string['page-mod-ardora-x'] = 'Cualquier página del módulo de archivo';
+$string['passinggrade'] = 'Aprobado';
+$string['passinggrade_help'] = 'Calificación mínima que debe alcanzar un usuario para considerar superada la actividad.';
 $string['pluginadministration'] = 'Administración del módulo de archivo';
 $string['pluginname'] = 'Ardora';
-$string['popupheight'] = 'Altura de ventana emergente (en píxeles)';
-$string['popupheightexplain'] = 'Especifica la altura predeterminada de las ventanas emergentes.';
-$string['popupwidth_desc'] = 'Ancho predeterminado de la ventana emergente (en píxeles).';
-$string['popupheight_desc'] = 'Altura predeterminada de la ventana emergente (en píxeles).';
 $string['popupardora'] = 'Este ardora debería aparecer en una ventana emergente.';
 $string['popupardoralink'] = 'Si no aparece, haz clic aquí: {$a}';
+$string['popupheight'] = 'Altura de ventana emergente (en píxeles)';
+$string['popupheight_desc'] = 'Altura predeterminada de la ventana emergente (en píxeles).';
+$string['popupheightexplain'] = 'Especifica la altura predeterminada de las ventanas emergentes.';
 $string['popupwidth'] = 'Anchura de ventana emergente (en píxeles)';
+$string['popupwidth_desc'] = 'Ancho predeterminado de la ventana emergente (en píxeles).';
 $string['popupwidthexplain'] = 'Especifica la anchura predeterminada de las ventanas emergentes.';
 $string['printintro'] = 'Mostrar descripción del ardora';
 $string['printintroexplain'] = '¿Mostrar la descripción del ardora debajo del contenido? Algunos tipos de visualización pueden no mostrar la descripción incluso si está habilitada.';
 $string['privacy:metadata'] = 'El plugin ardora de archivo no almacena ningún dato personal.';
-$string['ardora:addinstance'] = 'Agregar un nuevo ardora';
-$string['ardoracontent'] = 'Archivos y subcarpetas';
-$string['ardoradetails_sizetype'] = '{$a->size} {$a->type}';
-$string['ardoradetails_sizedate'] = '{$a->size} {$a->date}';
-$string['ardoradetails_typedate'] = '{$a->type} {$a->date}';
-$string['ardoradetails_sizetypedate'] = '{$a->size} {$a->type} {$a->date}';
-$string['ardora:exportardora'] = 'Exportar ardora';
-$string['ardora:view'] = 'Ver ardora';
-$string['passinggrade'] = 'Aprobado';
-$string['passinggrade_help'] = 'Calificación mínima que debe alcanzar un usuario para considerar superada la actividad.';
-$string['invalidpassinggrade'] = 'La calificación de aprobación debe ser un número entre 0 y 100.';
-$string['completionpassgrade_help'] = 'Si esta opción está activada, la actividad se considerará completada únicamente cuando el estudiante alcance la calificación de aprobado especificada.';
-$string['maximumgrade'] = 'Nota máxima';
-$string['maximumgrade_help'] = 'Especifique la nota máxima que se puede obtener en esta actividad.';
-
-$string['completionpassgrade'] = 'El estudiante debe obtener la calificación de aprobado para completar esta actividad.';
-$string['gradingoptions'] = 'Opciones de calificación';
 $string['search:activity'] = 'Ardora';
 $string['selectmainfile'] = 'Por favor, selecciona el archivo principal haciendo clic en el ícono junto al nombre del archivo.';
 $string['showdate'] = 'Mostrar fecha de subida/modificación';
@@ -118,10 +123,10 @@ $string['showdate_help'] = 'Muestra la fecha de subida/modificación junto a los
 
 Si hay múltiples archivos en este ardora, se muestra la fecha de subida/modificación del archivo principal.';
 $string['showsize'] = 'Mostrar tamaño';
+$string['showsize_desc'] = '¿Mostrar el tamaño del archivo en la página del curso?';
 $string['showsize_help'] = 'Muestra el tamaño del archivo, como "3.1 MB", junto a los enlaces al archivo.
 
 Si hay múltiples archivos en este ardora, se muestra el tamaño total de todos los archivos.';
-$string['showsize_desc'] = '¿Mostrar el tamaño del archivo en la página del curso?';
 $string['showtype'] = 'Mostrar tipo';
 $string['showtype_desc'] = '¿Mostrar el tipo de archivo (por ejemplo, "Documento de Word") en la página del curso?';
 $string['showtype_help'] = 'Muestra el tipo de archivo, como "Documento de Word", junto a los enlaces al archivo.
@@ -130,8 +135,3 @@ Si hay múltiples archivos en este ardora, se muestra el tipo del archivo princi
 
 Si el tipo de archivo no es conocido por el sistema, no se mostrará.';
 $string['uploadeddate'] = 'Subido {$a}';
-$string['embedheightexplain'] = 'La altura del marco del escenario.';
-$string['embedwidthexplain'] = 'La anchura del marco del escenario.';
-$string['embedwidth'] = 'Anchura';
-$string['embedheight'] = 'Altura';
-$string['courseidnotfound'] = 'Identificado de curso no encontrado.';
