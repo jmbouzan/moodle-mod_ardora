@@ -18,12 +18,24 @@
  * Strings for component 'ardora', language 'en'.
  *
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza
+ * @copyright  2025 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['ardora:addinstance'] = 'Add a new ardora';
+$string['ardora:exportardora'] = 'Export ardora';
+$string['ardora:grade'] = 'Grade Ardora submissions';
+$string['ardora:view'] = 'View ardora';
+$string['ardoracontent'] = 'Files and subfolders';
+$string['ardoradetails_sizedate'] = '{$a->size} {$a->date}';
+$string['ardoradetails_sizetype'] = '{$a->size} {$a->type}';
+$string['ardoradetails_sizetypedate'] = '{$a->size} {$a->type} {$a->date}';
+$string['ardoradetails_typedate'] = '{$a->type} {$a->date}';
+$string['cachedef_courseid_cache'] = 'Caché para almacenar los IDs de los cursos en la sesión.';
 $string['clicktodownload'] = 'Click {$a} link to download the file.';
 $string['clicktoopen2'] = 'Click {$a} link to view the file.';
+$string['completionpassgrade'] = 'The student must achieve the passing grade to complete this activity.';
+$string['completionpassgrade_help'] = 'If this option is enabled, the activity will be marked as complete only when the student achieves the specified passing grade.';
 $string['configdisplayoptions'] = 'Select all options that should be available, existing settings are not modified. Hold CTRL key to select multiple fields.';
 $string['configframesize'] = 'When a web page or an uploaded file is displayed within a frame, this value is the height (in pixels) of the top frame (which contains the navigation).';
 $string['configparametersettings'] = 'This sets the default value for the Parameter settings pane in the form when adding some new ardoras. After the first time, this becomes an individual user preference.';
@@ -52,6 +64,10 @@ $string['displayselect_help'] = 'This setting, together with the file type and w
 $string['displayselect_link'] = 'mod/file/mod';
 $string['displayselectexplain'] = 'Choose display type, unfortunately not all types are suitable for all files.';
 $string['dnduploadardora'] = 'Create file ardora';
+$string['embedheight'] = 'Height';
+$string['embedheightexplain'] = 'The height of the stage frame.';
+$string['embedwidth'] = 'Width';
+$string['embedwidthexplain'] = 'The width of the stage frame.';
 $string['encryptedcode'] = 'Encrypted code';
 $string['filenotfound'] = 'File not found, sorry.';
 $string['filterfiles'] = 'Use filters on file content';
@@ -59,6 +75,7 @@ $string['filterfilesexplain'] = 'Select type of file content filtering, please n
 $string['filtername'] = 'ardora names auto-linking';
 $string['forcedownload'] = 'Force download';
 $string['framesize'] = 'Frame height';
+$string['gradingoptions'] = 'Grading options';
 $string['indicator:cognitivedepth'] = 'File cognitive';
 $string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a File ardora.';
 $string['indicator:cognitivedepthdef'] = 'File cognitive';
@@ -69,9 +86,12 @@ $string['indicator:socialbreadth_help'] = 'This indicator is based on the social
 $string['indicator:socialbreadthdef'] = 'File social';
 $string['indicator:socialbreadthdef_help'] = 'The participant has reached this percentage of the social engagement offered by the File ardoras during this analysis interval (Levels = No participation, Participant alone)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
+$string['invalidpassinggrade'] = 'The passing grade must be a number between 0 and 100.';
 $string['legacyfiles'] = 'Migration of old course file';
 $string['legacyfilesactive'] = 'Active';
 $string['legacyfilesdone'] = 'Finished';
+$string['maximumgrade'] = 'Maximum grade';
+$string['maximumgrade_help'] = 'Specify the maximum grade that can be achieved for this activity.';
 $string['modifieddate'] = 'Modified {$a}';
 $string['modulename'] = 'Ardora';
 $string['modulename_help'] = 'Axuda explicativa aquí';
@@ -80,37 +100,21 @@ $string['modulenameplural'] = 'Files';
 $string['notmigrated'] = 'This legacy ardora type ({$a}) was not yet migrated, sorry.';
 $string['optionsheader'] = 'Display options';
 $string['page-mod-ardora-x'] = 'Any file module page';
+$string['passinggrade'] = 'Passing grade';
+$string['passinggrade_help'] = 'Minimum grade a user must achieve to consider the activity as passed.';
 $string['pluginadministration'] = 'File module administration';
 $string['pluginname'] = 'Ardora';
-$string['popupheight'] = 'Pop-up height (in pixels)';
-$string['popupheightexplain'] = 'Specifies default height of popup windows.';
-$string['popupwidth_desc'] = 'Default width of the popup window (in pixels).';
-$string['popupheight_desc'] = 'Default height of the popup window (in pixels).';
 $string['popupardora'] = 'This ardora should appear in a popup window.';
 $string['popupardoralink'] = 'If it didn\'t, click here: {$a}';
+$string['popupheight'] = 'Pop-up height (in pixels)';
+$string['popupheight_desc'] = 'Default height of the popup window (in pixels).';
+$string['popupheightexplain'] = 'Specifies default height of popup windows.';
 $string['popupwidth'] = 'Pop-up width (in pixels)';
+$string['popupwidth_desc'] = 'Default width of the popup window (in pixels).';
 $string['popupwidthexplain'] = 'Specifies default width of popup windows.';
 $string['printintro'] = 'Display ardora description';
 $string['printintroexplain'] = 'Display ardora description below content? Some display types may not display description even if enabled.';
 $string['privacy:metadata'] = 'The File ardora plugin does not store any personal data.';
-$string['ardora:addinstance'] = 'Add a new ardora';
-$string['ardoracontent'] = 'Files and subfolders';
-$string['ardoradetails_sizetype'] = '{$a->size} {$a->type}';
-$string['ardoradetails_sizedate'] = '{$a->size} {$a->date}';
-$string['ardoradetails_typedate'] = '{$a->type} {$a->date}';
-$string['ardoradetails_sizetypedate'] = '{$a->size} {$a->type} {$a->date}';
-$string['ardora:exportardora'] = 'Export ardora';
-$string['ardora:view'] = 'View ardora';
-$string['ardora:grade'] = 'Grade Ardora submissions';
-$string['passinggrade'] = 'Passing grade';
-$string['passinggrade_help'] = 'Minimum grade a user must achieve to consider the activity as passed.';
-$string['invalidpassinggrade'] = 'The passing grade must be a number between 0 and 100.';
-$string['completionpassgrade'] = 'The student must achieve the passing grade to complete this activity.';
-$string['completionpassgrade_help'] = 'If this option is enabled, the activity will be marked as complete only when the student achieves the specified passing grade.';
-$string['maximumgrade'] = 'Maximum grade';
-$string['maximumgrade_help'] = 'Specify the maximum grade that can be achieved for this activity.';
-
-$string['gradingoptions'] = 'Grading options';
 $string['search:activity'] = 'Ardora';
 $string['selectmainfile'] = 'Please select the main file by clicking the icon next to file name.';
 $string['showdate'] = 'Show upload/modified date';
@@ -119,10 +123,10 @@ $string['showdate_help'] = 'Displays the upload/modified date beside links to th
 
 If there are multiple files in this ardora, the start file upload/modified date is displayed.';
 $string['showsize'] = 'Show size';
+$string['showsize_desc'] = 'Display file size on course page?';
 $string['showsize_help'] = 'Displays the file size, such as \'3.1 MB\', beside links to the file.
 
 If there are multiple files in this ardora, the total size of all files is displayed.';
-$string['showsize_desc'] = 'Display file size on course page?';
 $string['showtype'] = 'Show type';
 $string['showtype_desc'] = 'Display file type (e.g. \'Word document\') on course page?';
 $string['showtype_help'] = 'Displays the type of the file, such as \'Word document\', beside links to the file.
@@ -131,8 +135,3 @@ If there are multiple files in this ardora, the start file type is displayed.
 
 If the file type is not known to the system, it will not display.';
 $string['uploadeddate'] = 'Uploaded {$a}';
-
-$string['embedheightexplain'] = 'The height of the stage frame.';
-$string['embedwidthexplain'] = 'The width of the stage frame.';
-$string['embedwidth'] = 'Width';
-$string['embedheight'] = 'Height';
