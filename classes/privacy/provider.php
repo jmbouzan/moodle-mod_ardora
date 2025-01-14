@@ -18,7 +18,7 @@
  * Privacy Subsystem implementation for mod_ardora.
  * created from the "Resource module" version created by 2018 Zig Tan <zig@moodle.com>
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2025 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_ardora\privacy;
@@ -96,9 +96,13 @@ class provider implements core_user_data_provider {
     }
 
     /**
-     * Delete all user data for the contexts provided.
+     * Deletes all user data for the specified context.
      *
-     * @param approved_contextlist $contextlist The list of approved contexts to delete information for.
+     * This function removes all user-related records from the `ardora_jobs` table
+     * for the given course context.
+     *
+     * @param \context $context The context for which to delete user data. Typically, a course context.
+     * @return void This function does not return a value.
      */
     public static function delete_data_for_all_users_in_context(\context $context) {
         // Implementa la lógica para eliminar todos los datos de usuario en el contexto proporcionado.
