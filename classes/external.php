@@ -19,7 +19,7 @@
  * created from the "Resource module" version created by
  * @package    mod_ardora
  * @category   external
- * @copyright  2023 José Manuel Bouzán Matanza
+ * @copyright  2025 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since      Moodle 3.0
  */
@@ -56,8 +56,15 @@ class mod_ardora_external extends external_api {
     }
 
     /**
-     * Returns welcome message
-     * @return string welcome message
+     * Saves a job and returns a welcome message.
+     *
+     * This web service function validates parameters, context, and capabilities before
+     * returning a personalized welcome message.
+     *
+     * @param string $welcomemessage The base message to include in the welcome message.
+     *                                Defaults to 'Hello world, '.
+     * @return string The personalized welcome message including the user's first name.
+     * @throws moodle_exception If the user does not have the required capability.
      */
     public static function mod_ardora_save_job($welcomemessage = 'Hello world, ') {
         global $USER;
