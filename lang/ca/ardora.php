@@ -98,7 +98,7 @@
  $string['modulename_help'] = 'Ajuda explicativa aquí';
  $string['modulename_link'] = 'mod/ardora/view';
  $string['modulenameplural'] = 'Fitxers';
- $string['notmigrated'] = 'Aquest tipus d\'ardora heretat ({$a}) encara no ha estat migrat, disculpeu.';
+ $string['notmigrated'] = 'Aquest tipus d\'ardora heretat ({$a}) encara no ha estat migrat; disculpeu.';
  $string['optionsheader'] = 'Opcions de visualització';
  $string['page-mod-ardora-x'] = 'Qualsevol pàgina del mòdul de fitxers';
  $string['passinggrade'] = 'Aprovat';
