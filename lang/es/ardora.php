@@ -24,6 +24,7 @@
 
 $string['ardora:addinstance'] = 'Agregar un nuevo ardora';
 $string['ardora:exportardora'] = 'Exportar ardora';
+$string['ardora:grade'] = 'Calificar las entregas de Ardora';
 $string['ardora:view'] = 'Ver ardora';
 $string['ardoracontent'] = 'Archivos y subcarpetas';
 $string['ardoradetails_sizedate'] = '{$a->size} {$a->date}';
@@ -97,7 +98,7 @@ $string['modulename'] = 'Ardora';
 $string['modulename_help'] = 'Ayuda explicativa aquí';
 $string['modulename_link'] = 'mod/ardora/view';
 $string['modulenameplural'] = 'Archivos';
-$string['notmigrated'] = 'Este tipo de ardora heredado ({$a}) aún no ha sido migrado, lo sentimos.';
+$string['notmigrated'] = 'Este tipo de ardora heredado ({$a}) aún no ha sido migrado; lo sentimos.';
 $string['optionsheader'] = 'Opciones de visualización';
 $string['page-mod-ardora-x'] = 'Cualquier página del módulo de archivo';
 $string['passinggrade'] = 'Aprobado';
