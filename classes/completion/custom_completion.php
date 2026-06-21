@@ -18,10 +18,12 @@
  * Custom completion for ardora
  *
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_ardora\completion;
+
+defined('MOODLE_INTERNAL') || die();
 
 use core_completion\activity_custom_completion;
 
