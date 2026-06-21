@@ -18,11 +18,13 @@
  * Search area for mod_ardora activities.
  * created from the "Resource module" version created by 2015 David Monllao {@link http://www.davidmonllao.com}
  * @package    mod_ardora
- * @copyright  2023 José Manuel Bouzán Matanza
+ * @copyright  2026 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_ardora\search;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Search area for mod_ardora activities.
