@@ -18,11 +18,13 @@
  * Activity base class.
  * created from the "Resource module" version created by 2017 onwards Ankit Agarwal <ankit.agrr@gmail.com>
  * @package   mod_ardora
- * @copyright 2023 José Manuel Bouzán Matanza
+ * @copyright 2026 José Manuel Bouzán Matanza
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_ardora\analytics\indicator;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Base class for activities in the Community of Inquiry model.

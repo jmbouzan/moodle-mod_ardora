@@ -18,11 +18,13 @@
  * Cognitive depth indicator - ardora.
  * created from the "Resource module" version created by 2017 David Monllao {@link http://www.davidmonllao.com}
  * @package   mod_ardora
- * @copyright 2025 José Manuel Bouzán Matanza
+ * @copyright 2026 José Manuel Bouzán Matanza
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_ardora\analytics\indicator;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Cognitive Depth indicator for activities.
