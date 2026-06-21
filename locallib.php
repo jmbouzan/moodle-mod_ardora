@@ -18,7 +18,7 @@
  * Private ardora module utility functions
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
- * @copyright  2025 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -48,7 +48,7 @@ function ardora_redirect_if_migrated($oldid, $cmid) {
         return;
     }
 
-    redirect("$CFG->wwwroot/mod/$old->newmodule/view.php?id=".$old->cmid);
+    redirect("$CFG->wwwroot/mod/$old->newmodule/view.php?id=" . $old->cmid);
 }
 
 /**
@@ -65,8 +65,14 @@ function ardora_display_embed($ardora, $cm, $course, $file) {
     $clicktoopen = ardora_get_clicktoopen($file, $ardora->revision);
 
     $context = context_module::instance($cm->id);
-    $moodleurl = moodle_url::make_pluginfile_url($context->id, 'mod_ardora', 'content', $ardora->revision,
-            $file->get_filepath(), $file->get_filename());
+    $moodleurl = moodle_url::make_pluginfile_url(
+        $context->id,
+        'mod_ardora',
+        'content',
+        $ardora->revision,
+        $file->get_filepath(),
+        $file->get_filename()
+    );
 
     $mimetype = $file->get_mimetype();
     $title    = $ardora->name;
@@ -81,15 +87,12 @@ function ardora_display_embed($ardora, $cm, $course, $file) {
 
     if (file_mimetype_in_typegroup($mimetype, 'web_image')) {  // It's an image.
         $code = resourcelib_embed_image($moodleurl->out(), $title);
-
     } else if ($mimetype === 'application/pdf') {
         // PDF document.
         $code = resourcelib_embed_pdf($moodleurl->out(), $title, $clicktoopen);
-
     } else if ($mediamanager->can_embed_url($moodleurl, $embedoptions)) {
         // Media (audio/video) file.
         $code = $mediamanager->embed_url($moodleurl, $title, 0, 0, $embedoptions);
-
     } else {
         // We need a way to discover if we are loading remote docs inside an iframe.
         $moodleurl->param('embed', 1);
@@ -110,6 +113,175 @@ function ardora_display_embed($ardora, $cm, $course, $file) {
 }
 
 /**
+ * Display Ardora Server Page.
+ * UPDATE V.2 PLUGIN Páginas en servidor
+ *
+ * @param object $ardora
+ * @param object $cm
+ * @param object $course
+ * @param stored_file $file index.php file
+ * @param int $displaytype Moodle display type constant
+ * @return void, does not return
+ */
+function ardora_display_server_page($ardora, $cm, $course, $file, $displaytype = 0) {
+    global $CFG, $PAGE, $OUTPUT, $USER;
+
+    $context = context_module::instance($cm->id);
+    $content = $file->get_content();
+
+    // 1. Identify type from php/requiresard.php if it exists.
+    $type = '';
+    $fs = get_file_storage();
+    $reqfile = $fs->get_file($context->id, 'mod_ardora', 'content', 0, '/php/', 'requiresard.php');
+    if (!$reqfile) {
+        // Try searching in all paths.
+        $allfiles = $fs->get_area_files($context->id, 'mod_ardora', 'content', 0, 'id', false);
+        foreach ($allfiles as $f) {
+            if ($f->get_filename() === 'requiresard.php') {
+                $reqfile = $f;
+                break;
+            }
+        }
+    }
+
+    if ($reqfile) {
+        $reqcontent = $reqfile->get_content();
+        if (preg_match('/define\s*\("tipocontido",\s*"([^"]+)"\)/i', $reqcontent, $matches)) {
+            $type = $matches[1];
+        }
+    }
+
+    // 2. Setup Moodle Page.
+    if ($displaytype == RESOURCELIB_DISPLAY_POPUP) {
+        $PAGE->set_pagelayout('popup');
+    } else {
+        $PAGE->set_pagelayout('incourse');
+    }
+
+    // 3. Base URL for assets.
+    $baseurl = moodle_url::make_pluginfile_url($context->id, 'mod_ardora', 'content', $ardora->revision, '/', '');
+    $baseurlstr = $baseurl->out(false);
+
+    // 4. Register CSS and JS dynamically from the file content.
+    // CSS.
+    if (preg_match_all('/<link[^>]+href="([^"]+)"[^>]*>/i', $content, $matches)) {
+        foreach ($matches[0] as $i => $fulltag) {
+            // Only include stylesheets, skip icons or other types.
+            if (stripos($fulltag, 'rel="stylesheet"') === false) {
+                continue;
+            }
+
+            $cssfile = $matches[1][$i];
+            if (strpos($cssfile, 'http') === 0) {
+                $PAGE->requires->css(new moodle_url($cssfile));
+            } else {
+                $PAGE->requires->css(new moodle_url($baseurlstr . $cssfile));
+            }
+        }
+    }
+    if (preg_match_all('/<script[^>]+src="([^"]+)"[^>]*>/i', $content, $scripts)) {
+        foreach ($scripts[1] as $jsfile) {
+            // Restore all libraries. Ardora scripts rely on these specific versions.
+            if (strpos($jsfile, 'http') === 0) {
+                $PAGE->requires->js(new moodle_url($jsfile), true);
+            } else {
+                $PAGE->requires->js(new moodle_url($baseurlstr . $jsfile), true);
+            }
+        }
+    }
+
+    // 5. Extract #ardoraMain content.
+    $bodyhtml = '';
+    if (preg_match('/<div id="ardoraMain">(.*)<\/div>/is', $content, $matches)) {
+        $bodyhtml = $matches[1];
+    } else if (preg_match('/<body>(.*)<\/body>/is', $content, $matches)) {
+        $bodyhtml = $matches[1];
+    }
+    // Remove scripts and styles from bodyhtml as they are handled by Moodle PAGE requirements.
+    $bodyhtml = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $bodyhtml);
+    $bodyhtml = preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', '', $bodyhtml);
+
+    // 6. Inject Variables.
+    $usertype = 'alu';
+    if (is_siteadmin()) {
+        $usertype = 'admin';
+    } else if (has_capability('mod/ardora:managejobs', $context)) {
+        $usertype = 'profe';
+    }
+
+    $timelinevars = "";
+    if ($type === 'timeline') {
+        $timelinevars = "
+        window.Timeline_urlPrefix = '{$baseurlstr}timeline/timeline_js/';
+        window.Timeline_ajax_url = '{$baseurlstr}timeline/timeline_ajax/simile-ajax-api.js';
+        window.Timeline_parameters = 'bundle=true';
+        ";
+    }
+
+    $sessionvars = "
+        <script>
+        window.tipocontido = '{$type}';
+        window.ARDORA_MOODLE = true;
+        window.ARDORA_CONTENT_BASE = '{$baseurlstr}';
+        ";
+    $moodleajaxurl = new moodle_url('/mod/ardora/ardora_lib.php');
+    $ardoraidval = !empty($ardora->ardora_id) ? $ardora->ardora_id : $ardora->id;
+    $sessionvars .= "
+        window.ARDORA_MOODLE_URL = '{$moodleajaxurl->out(false)}';
+        window.ARDORA_ID = '{$ardoraidval}';
+        window.ardoraId = '{$ardoraidval}';
+        window.ARDORA_CMID = '{$cm->id}';
+        window.courseid = '{$course->id}';
+        window.sesskey = '{$USER->sesskey}';
+
+        window.sesionUsuario = '{$USER->username}';
+        window.sesionNombre = '" . addslashes(fullname($USER)) . "';
+        window.sesionTipo = '{$usertype}';
+        window.sesionCurso = '{$course->id}';
+        window.sesionGrupo = '';
+        window.ARDORA_BASE = 'usersV52';
+        window.TIMEOUT_REDIRECT = '0';
+        {$timelinevars}
+        </script>
+    ";
+
+    // 7. Start printing output.
+    ardora_print_header($ardora, $cm, $course);
+    ardora_print_heading($ardora, $cm, $course);
+    echo $sessionvars;
+
+    // 8. Output Body.
+    $height = ($displaytype == RESOURCELIB_DISPLAY_POPUP) ? '100vh' : 'calc(100vh - 180px)';
+    $overflow = ($displaytype == RESOURCELIB_DISPLAY_POPUP) ? 'hidden' : 'visible';
+    echo html_writer::tag('style', "
+        html, body { height: 100% !important; overflow: {$overflow} !important; margin: 0 !important; padding: 0 !important; }
+        #ardoraMain {
+            height: {$height} !important;
+            min-height: 400px !important;
+            max-height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            position: relative !important;
+        }
+        #wave {
+            flex: 1 1 auto !important;
+            overflow-y: auto !important;
+            min-height: 0 !important;
+            display: block !important;
+            position: relative !important;
+        }
+    ");
+
+    echo '<div id="ardoraMain">';
+    echo $bodyhtml;
+    echo '</div>';
+
+    ardora_print_intro($ardora, $cm, $course);
+    echo $OUTPUT->footer();
+    die;
+}
+/**
  * Display ardora frames.
  * @param object $ardora
  * @param object $cm
@@ -129,14 +301,13 @@ function ardora_display_frame($ardora, $cm, $course, $file) {
         ardora_print_intro($ardora, $cm, $course);
         echo $OUTPUT->footer();
         die;
-
     } else {
         $config = get_config('ardora');
         $context = context_module::instance($cm->id);
-        $path = '/'.$context->id.'/mod_ardora/content/'.$ardora->revision.$file->get_filepath().$file->get_filename();
+        $path = '/' . $context->id . '/mod_ardora/content/' . $ardora->revision . $file->get_filepath() . $file->get_filename();
         $fileurl = (new moodle_url('/pluginfile.php' . $path))->out(false);
         $navurl = "$CFG->wwwroot/mod/ardora/view.php?id=$cm->id&amp;frameset=top";
-        $title = strip_tags(format_string($course->shortname.': '.$ardora->name));
+        $title = strip_tags(format_string($course->shortname . ': ' . $ardora->name));
         $framesize = $config->framesize;
         $contentframetitle = s(format_string($ardora->name));
         $modulename = s(get_string('modulename', 'ardora'));
@@ -170,11 +341,11 @@ EOF;
  * @param string $extra Additional attributes for the HTML link tag.
  * @return string The HTML string with the "click to open" link.
  */
-function ardora_get_clicktoopen($file, $revision, $extra='') {
+function ardora_get_clicktoopen($file, $revision, $extra = '') {
     global $CFG;
 
     $filename = $file->get_filename();
-    $path = '/'.$file->get_contextid().'/mod_ardora/content/'.$revision.$file->get_filepath().$file->get_filename();
+    $path = '/' . $file->get_contextid() . '/mod_ardora/content/' . $revision . $file->get_filepath() . $file->get_filename();
     $fullurl = (new moodle_url('/pluginfile.php' . $path))->out(false);
 
     $string = get_string('clicktoopen2', 'ardora', "<a href=\"$fullurl\" $extra>$filename</a>");
@@ -193,7 +364,7 @@ function ardora_get_clicktodownload($file, $revision) {
     global $CFG;
 
     $filename = $file->get_filename();
-    $path = '/'.$file->get_contextid().'/mod_ardora/content/'.$revision.$file->get_filepath().$file->get_filename();
+    $path = '/' . $file->get_contextid() . '/mod_ardora/content/' . $revision . $file->get_filepath() . $file->get_filename();
     $fullurl = (new moodle_url('/pluginfile.php' . $path))->out(false);
 
     $string = get_string('clicktodownload', 'ardora', "<a href=\"$fullurl\">$filename</a>");
@@ -220,15 +391,16 @@ function ardora_print_workaround($ardora, $cm, $course, $file) {
     echo '<div class="ardoraworkaround">';
     switch (ardora_get_final_display_type($ardora)) {
         case RESOURCELIB_DISPLAY_POPUP:
-            $path = '/'.$file->get_contextid().'/mod_ardora/content/'.$ardora->revision.$file->get_filepath().$file->get_filename();
+            $path = '/' . $file->get_contextid() . '/mod_ardora/content/' .
+                $ardora->revision . $file->get_filepath() . $file->get_filename();
             $fullurl = (new moodle_url('/pluginfile.php' . $path))->out(false);
             $options = empty($ardora->displayoptions) ? [] : json_decode($ardora->displayoptions, true);
             $width  = empty($options['popupwidth']) ? 620 : $options['popupwidth'];
             $height = empty($options['popupheight']) ? 450 : $options['popupheight'];
             $wh = "width=$width,height=$height," .
-            "toolbar=no,location=no,menubar=no," .
-            "copyhistory=no,status=no,directories=no," .
-            "scrollbars=yes,resizable=yes";
+                "toolbar=no,location=no,menubar=no," .
+                "copyhistory=no,status=no,directories=no," .
+                "scrollbars=yes,resizable=yes";
             $extra = "onclick=\"window.open('$fullurl', '', '$wh'); return false;\"";
             echo ardora_get_clicktoopen($file, $ardora->revision, $extra);
             break;
@@ -263,10 +435,13 @@ function ardora_print_workaround($ardora, $cm, $course, $file) {
 function ardora_print_header($ardora, $cm, $course) {
     global $PAGE, $OUTPUT;
 
-    $PAGE->set_title($course->shortname.': '.$ardora->name);
+    $PAGE->set_title($course->shortname . ': ' . $ardora->name);
     $PAGE->set_heading($course->fullname);
     $PAGE->set_activity_record($ardora);
     echo $OUTPUT->header();
+    $moodleajaxurl = new moodle_url('/mod/ardora/ardora_lib.php');
+    echo html_writer::script("window.ARDORA_MOODLE = true; window.ARDORA_MOODLE_URL = '" . $moodleajaxurl->out(false) .
+        "'; window.ARDORA_CMID = '{$cm->id}';");
 }
 
 /**
@@ -282,10 +457,10 @@ function ardora_print_heading($ardora, $cm, $course, $notused = false) {
     echo $OUTPUT->heading(format_string($ardora->name), 2);
 }
 
-
 /**
- * Gets details of the file to cache in course cache to be displayed using {@link ardora_get_optional_details()}
+ * Gets details of the file to cache.
  *
+ * To be displayed using {@see ardora_get_optional_details()}
  * @param object $ardora ardora table row (only property 'displayoptions' is used here)
  * @param object $cm Course-module table row
  * @return string Size and type or empty string if show options are not enabled
@@ -394,19 +569,26 @@ function ardora_get_optional_details($ardora, $cm) {
         }
         if (!empty($options['showdate']) && (!empty($filedetails['modifieddate']) || !empty($filedetails['uploadeddate']))) {
             if (!empty($filedetails['modifieddate'])) {
-                $date = get_string('modifieddate', 'mod_ardora', userdate($filedetails['modifieddate'],
-                    get_string('strftimedatetimeshort', 'langconfig')));
+                $date = get_string('modifieddate', 'mod_ardora', userdate(
+                    $filedetails['modifieddate'],
+                    get_string('strftimedatetimeshort', 'langconfig')
+                ));
             } else if (!empty($filedetails['uploadeddate'])) {
-                $date = get_string('uploadeddate', 'mod_ardora', userdate($filedetails['uploadeddate'],
-                    get_string('strftimedatetimeshort', 'langconfig')));
+                $date = get_string('uploadeddate', 'mod_ardora', userdate(
+                    $filedetails['uploadeddate'],
+                    get_string('strftimedatetimeshort', 'langconfig')
+                ));
             }
             $langstring .= 'date';
             $infodisplayed += 1;
         }
 
         if ($infodisplayed > 1) {
-            $details = get_string("ardoradetails_{$langstring}", 'ardora',
-                    (object)['size' => $size, 'type' => $type, 'date' => $date]);
+            $details = get_string(
+                "ardoradetails_{$langstring}",
+                'ardora',
+                (object)['size' => $size, 'type' => $type, 'date' => $date]
+            );
         } else {
             // Only one of size, type and date is set, so just append.
             $details = $size . $type . $date;
@@ -424,7 +606,7 @@ function ardora_get_optional_details($ardora, $cm) {
  * @param bool $ignoresettings print even if not specified in modedit
  * @return void
  */
-function ardora_print_intro($ardora, $cm, $course, $ignoresettings=false) {
+function ardora_print_intro($ardora, $cm, $course, $ignoresettings = false) {
     global $OUTPUT;
 
     $options = empty($ardora->displayoptions) ? [] : json_decode($ardora->displayoptions, true);

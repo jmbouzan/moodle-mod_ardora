@@ -18,7 +18,7 @@
  * ardora module version information
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -78,6 +78,12 @@ if (count($files) < 1) {
 }
 $ardora->mainfile = $file->get_filename();
 $displaytype = ardora_get_final_display_type($ardora);
+
+if ($ardora->mainfile === 'index.php' || $ardora->mainfile === 'index.html') { // UPDATE V.2 PLUGIN Páginas en servidor.
+    ardora_display_server_page($ardora, $cm, $course, $file, $displaytype);
+    die;
+}
+
 if ($displaytype == RESOURCELIB_DISPLAY_OPEN || $displaytype == RESOURCELIB_DISPLAY_DOWNLOAD) {
     $redirect = true;
 }

@@ -18,7 +18,7 @@
  * List of all resources in course
  * created from the "Resource module" version created by 1999 onwards Martin Dougiamas (http://dougiamas.com)
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

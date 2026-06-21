@@ -17,9 +17,13 @@
 /**
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
+
+define('ARDORA_MOODLE', true); // UPDATE V.2 PLUGIN Páginas en servidor.
 
 /**
  * Returns the features supported by the Ardora module.
@@ -121,15 +125,17 @@ function ardora_delete_instance($id) {
         return false;
     }
 
-    // Get ardora_id.
-    $ardoraid = $ardora->ardora_id;
-
     $transaction = $DB->start_delegated_transaction();
 
     try {
+        // Deletes related records from the ardora_server_pages table.
+        $DB->delete_records('ardora_server_pages', ['ardora_id' => $ardora->ardora_id, 'courseid' => $ardora->course]);
 
         // Deletes related records from the ardora_jobs table.
-        $DB->delete_records('ardora_jobs', ['ardora_id' => $ardoraid]);
+        $DB->delete_records('ardora_jobs', ['ardora_id' => $ardora->ardora_id, 'courseid' => $ardora->course]);
+
+        // Deletes related records from the ardora_poster_groups table.
+        $DB->delete_records('ardora_poster_groups', ['ardora_id' => $ardora->ardora_id, 'courseid' => $ardora->course]);
 
         // Deletes the record from the ardora table.
         $DB->delete_records('ardora', ['id' => $id]);
@@ -179,9 +185,9 @@ function ardora_add_instance($data, $mform) {
     foreach ($draftfiles as $file) {
         if ($file->get_filename() == 'parameters.txt') {
             $content = $file->get_content();
-            $lines = explode("\n", $content);
+            $lines = preg_split('/\r\n|\r|\n/', $content);
             if (isset($lines[1])) {
-                $ardoraid = $lines[1];
+                $ardoraid = trim($lines[1]);
             }
             break;
         }
@@ -189,6 +195,8 @@ function ardora_add_instance($data, $mform) {
 
     if ($ardoraid !== null) {
         $data->ardora_id = $ardoraid;
+    } else {
+        $data->ardora_id = 'S_' . time() . '_' . rand(1000, 9999);
     }
 
     // Validate and assign values related to the qualification.
@@ -266,6 +274,25 @@ function ardora_update_instance($data, $mform) {
     $data->revision++;
 
     ardora_set_display_options($data);
+    // Handling of draft files and ardora_id extraction on update.
+    $fs = get_file_storage();
+    $draftitemid = $data->files;
+    $contextuser = context_user::instance($USER->id);
+    $draftfiles = $fs->get_area_files($contextuser->id, 'user', 'draft', $draftitemid);
+    $ardoraid = null;
+    foreach ($draftfiles as $file) {
+        if ($file->get_filename() == 'parameters.txt') {
+            $content = $file->get_content();
+            $lines = preg_split('/\r\n|\r|\n/', $content);
+            if (isset($lines[1])) {
+                $ardoraid = trim($lines[1]);
+            }
+            break;
+        }
+    }
+    if ($ardoraid !== null) {
+        $data->ardora_id = $ardoraid;
+    }
 
     // Validate and assign values related to the qualification.
     $data->gradepass = isset($data->gradepass) && is_numeric($data->gradepass) ? floatval($data->gradepass) : 0;
@@ -920,7 +947,10 @@ function mod_ardora_save_job(
     // Verify the user's capability.
     $context = context_module::instance($cmid);
     $isstudent = has_capability('mod/ardora:student', $context, $userid);
-    if ($isstudent) {
+    $isteacher = has_capability('mod/ardora:managejobs', $context, $userid);
+
+    // Only save if the user is a student and NOT a teacher/admin.
+    if ($isstudent && !$isteacher) {
         // Check for existing jobs with the same parameters.
         $sql = "SELECT * FROM {ardora_jobs} WHERE "
         . "datajob = :datajob AND "
@@ -1078,8 +1108,8 @@ function get_user_ardora_jobs($type, $father, $paqname, $ardoraid) {
  *
  * If the course ID cannot be determined, an exception is thrown.
  *
- * @param int $father The ID of the parent element.
- * @param int $type Unused parameter. Reserved for future use.
+ * @param int $type Unused parameter. Reserved for future use. // PHPDocs style problems
+ * @param int $father The ID of the parent element. // PHPDocs style problems
  * @param string $paqname The name of the package associated with the evaluation.
  * @param int $ardoraid The ID of the Ardora instance.
  * @return array An array containing evaluation data with keys:
@@ -1433,12 +1463,12 @@ function del_user_ardora_job($userid, $datajob, $ardoraid) {
 }
 
 /**
- * Returns the features supported by the Ardora module.
+ * Returns the descriptions of active completion rules for the Ardora module. // PHPDocs style problems
  *
- * This function declares which features the Ardora module supports within Moodle.
+ * This function returns descriptions of the custom completion rules active for the module. // PHPDocs style problems
  *
- * @param string $feature The name of the feature to check.
- * @return mixed True if the feature is supported, null if not.
+ * @param stdClass $cm The course module object. // PHPDocs style problems
+ * @return array Array of descriptive strings for the active rules. // PHPDocs style problems
  */
 function mod_ardora_get_completion_active_rule_descriptions($cm) {
     return [get_string('completionrequiresgrade', 'mod_ardora')];
