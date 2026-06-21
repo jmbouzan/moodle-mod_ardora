@@ -38,9 +38,11 @@
  * before any action that may take longer time to finish.
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Upgrades the Ardora module to the specified version.
@@ -53,7 +55,8 @@
  * @return bool True on success, false on failure.
  */
 function xmldb_ardora_upgrade($oldversion) {
-    global $CFG;
+    global $CFG, $DB;
+    $dbman = $DB->get_manager();
 
     // Automatically generated Moodle v3.3.0 release upgrade line.
     // Put any upgrade step following this.
@@ -72,6 +75,75 @@ function xmldb_ardora_upgrade($oldversion) {
 
     // Automatically generated Moodle v3.8.0 release upgrade line.
     // Put any upgrade step following this.
+    if ($oldversion < 2026030700) {
+        // UPDATE V.2 PLUGIN Páginas en servidor
+        // Define table ardora_server_pages to be created.
+        $table = new xmldb_table('ardora_server_pages');
+
+        // Adding fields to table ardora_server_pages.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('ardora_id', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('type', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('father', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('field01', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field02', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field03', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field04', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field05', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field06', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field07', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field08', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field09', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field10', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field11', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field12', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field13', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field14', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('field15', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('dt', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table ardora_server_pages.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+        // Adding indexes to table ardora_server_pages.
+        $table->add_index('courseid', XMLDB_INDEX_NOTUNIQUE, ['courseid']);
+        $table->add_index('ardora_id', XMLDB_INDEX_NOTUNIQUE, ['ardora_id']);
+
+        // Conditionally launch create table for ardora_server_pages.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Ardora savepoint reached.
+        upgrade_mod_savepoint(true, 2026030700, 'ardora');
+    }
+
+    if ($oldversion < 2026031300) {
+        $table = new xmldb_table('ardora_server_pages');
+
+        for ($i = 16; $i <= 30; $i++) {
+            $fieldname = 'field' . $i;
+            $field = new xmldb_field($fieldname, XMLDB_TYPE_TEXT, null, null, null, null, null);
+            if (!$dbman->field_exists($table, $field)) {
+                $dbman->add_field($table, $field);
+            }
+        }
+
+        upgrade_mod_savepoint(true, 2026031300, 'ardora');
+    }
+
+    if ($oldversion < 2026041800) {
+        $table = new xmldb_table('ardora_server_pages');
+        $field = new xmldb_field('folder', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'father');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2026041800, 'ardora');
+    }
 
     return true;
 }

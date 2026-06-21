@@ -19,7 +19,7 @@
  * created from the "Resource module" version created by 2015 Juan Leyva <juan@moodle.com>
  * @package    mod_ardora
  * @category   external
- * @copyright  2023 José Manuel Bouzán Matanza
+ * @copyright  2026 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since      Moodle 3.0
  */

@@ -19,7 +19,7 @@
  * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
  * @package    mod_ardora
  * @category   log
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
