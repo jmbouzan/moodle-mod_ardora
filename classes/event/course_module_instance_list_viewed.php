@@ -18,11 +18,13 @@
  * The mod_ardora instance list viewed event.
  * created from the "Resource module" version created by 2014 Rajesh Taneja <rajesh@moodle.com>
  * @package    mod_ardora
- * @copyright  2023 José Manuel Bouzán Matanza
+ * @copyright  2026 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_ardora\event;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * The mod_ardora instance list viewed event class.

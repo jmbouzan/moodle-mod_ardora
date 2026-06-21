@@ -18,18 +18,20 @@
  * The mod_ardora course module viewed event.
  *
  * @package    mod_ardora
- * @copyright  2023 José Manuel Bouzán Matanza
+ * @copyright  2026 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_ardora\event;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * The mod_ardora course module viewed event class.
  * created from the "Resource module" version created by 2014 Rajesh Taneja <rajesh@moodle.com>
  * @package    mod_ardora
  * @since      Moodle 2.7
- * @copyright  2023 José Manuel Bouzán Matanza
+ * @copyright  2026 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_viewed extends \core\event\course_module_viewed {
