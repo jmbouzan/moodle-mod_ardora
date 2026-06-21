@@ -18,10 +18,12 @@
  * Privacy Subsystem implementation for mod_ardora.
  * created from the "Resource module" version created by 2018 Zig Tan <zig@moodle.com>
  * @package    mod_ardora
- * @copyright  2025 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_ardora\privacy;
+
+defined('MOODLE_INTERNAL') || die();
 
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\contextlist;
@@ -33,7 +35,7 @@ use core_privacy\local\request\core_user_data_provider;
 /**
  * Implementation of the privacy provider for mod_ardora.
  *
- * @copyright  2024 José Manuel Bouzán Matanza
+ * @copyright  2026 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements core_user_data_provider {
