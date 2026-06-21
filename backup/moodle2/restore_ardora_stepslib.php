@@ -18,9 +18,11 @@
  * Defines the restore steps for the Ardora activity module.
  *
  * @package   mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright 2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Restore structure step for the Ardora activity module.
@@ -33,7 +35,7 @@
  * processed during the restore procedure.
  *
  * @package   mod_ardora
- * @copyright  2024 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_ardora_activity_structure_step extends restore_activity_structure_step {
@@ -93,7 +95,7 @@ class restore_ardora_activity_structure_step extends restore_activity_structure_
      *
      * @param stdClass $data The restored old data.
      */
-    protected function process_ardora_old($data) {
+    protected function process_ardora_server_page($data) {
         global $DB;
 
         $data = (object) $data;

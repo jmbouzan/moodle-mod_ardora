@@ -18,15 +18,17 @@
  * Defines the backup steps for the Ardora activity module.
  *
  * @package   mod_ardora
- * @copyright 2024 Your Name <your@email.com>
+ * @copyright 2026 José Manuel Bouzán Matanza (https://www.webardora.net)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- /**
-  * Backup structure step for the Ardora activity module.
-  *
-  * @package   mod_ardora
-  */
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Backup structure step for the Ardora activity module.
+ *
+ * @package   mod_ardora
+ */
 class backup_ardora_activity_structure_step extends backup_activity_structure_step {
 
     /**
@@ -38,18 +40,54 @@ class backup_ardora_activity_structure_step extends backup_activity_structure_st
 
         // Define each element separated.
         $ardora = new backup_nested_element('ardora', ['id'], [
-            'course', 'name', 'ardora_id', 'intro', 'introformat', 'tobemigrated', 'legacyfiles',
-            'legacyfileslast', 'display', 'displayoptions', 'filterfiles', 'revision', 'timemodified',
+            'course',
+            'name',
+            'ardora_id',
+            'intro',
+            'introformat',
+            'tobemigrated',
+            'legacyfiles',
+            'legacyfileslast',
+            'display',
+            'displayoptions',
+            'filterfiles',
+            'revision',
+            'timemodified',
         ]);
 
         $jobs = new backup_nested_element('jobs', ['id'], [
-            'courseid', 'userid', 'datajob', 'father', 'type', 'paq_name', 'ardora_id',
-            'activity', 'hstart', 'hend', 'state', 'attempts', 'points',
+            'courseid',
+            'userid',
+            'datajob',
+            'father',
+            'type',
+            'paq_name',
+            'ardora_id',
+            'activity',
+            'hstart',
+            'hend',
+            'state',
+            'attempts',
+            'points',
         ]);
 
         $ardoraold = new backup_nested_element('ardora_old', ['id'], [
-            'course', 'name', 'ardora_id', 'type', 'reference', 'intro', 'introformat', 'alltext', 'popup',
-            'options', 'timemodified', 'oldid', 'cmid', 'newmodule', 'newid', 'migrated',
+            'course',
+            'name',
+            'ardora_id',
+            'type',
+            'reference',
+            'intro',
+            'introformat',
+            'alltext',
+            'popup',
+            'options',
+            'timemodified',
+            'oldid',
+            'cmid',
+            'newmodule',
+            'newid',
+            'migrated',
         ]);
 
         // Build the tree.
