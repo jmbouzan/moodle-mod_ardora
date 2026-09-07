@@ -26,7 +26,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once("$CFG->libdir/externallib.php");
+// WEBService: Include Moodle external library for class definitions.
+global $CFG;
+require_once($CFG->libdir . '/externallib.php');
 
 /**
  * External API class for Ardora module.
@@ -38,11 +40,13 @@ require_once("$CFG->libdir/externallib.php");
  * @category   external
  */
 class mod_ardora_external extends external_api {
+
+    // WEBService: Parameters definition for save_job.
     /**
      * Returns description of method parameters
      * @return external_function_parameters
      */
-    public static function mod_ardora_save_job_parameters() {
+    public static function save_job_parameters() {
         return new external_function_parameters(
             [
                 'welcomemessage' => new external_value(
@@ -55,6 +59,7 @@ class mod_ardora_external extends external_api {
         );
     }
 
+    // WEBService: Execution method for save_job.
     /**
      * Saves a job and returns a welcome message.
      *
@@ -66,15 +71,17 @@ class mod_ardora_external extends external_api {
      * @return string The personalized welcome message including the user's first name.
      * @throws moodle_exception If the user does not have the required capability.
      */
-    public static function mod_ardora_save_job($welcomemessage = 'Hello world, ') {
+    public static function save_job($welcomemessage = 'Hello world, ') {
         global $USER;
         // Parameter validation.
         // REQUIRED.
-        $params = self::validate_parameters(self::mod_ardora_save_job_parameters(), [
+        $params = self::validate_parameters(self::save_job_parameters(), [
             'welcomemessage' => $welcomemessage,
         ]);
         // Context validation.
         // OPTIONAL but in most web services it should be present.
+        // WEBService: Type hint for context validation in IDE.
+        /** @var \context $context */
         $context = context_user::instance($USER->id);
         self::validate_context($context);
         // Capability checking.
@@ -85,12 +92,43 @@ class mod_ardora_external extends external_api {
         return $params['welcomemessage'] . $USER->firstname;
     }
 
+    // WEBService: Return description for save_job.
     /**
      * Returns description of method result value
-     * @return external_description
+     * @return external_value
+     */
+    public static function save_job_returns() {
+        return new external_value(PARAM_TEXT, 'The welcome message + user first name');
+    }
+
+    // WEBService: Alias methods for backwards compatibility with mod_ardora_save_job.
+    /**
+     * Returns description of method parameters for mod_ardora_save_job.
+     *
+     * @return external_function_parameters
+     */
+    public static function mod_ardora_save_job_parameters() {
+        return self::save_job_parameters();
+    }
+
+    /**
+     * Saves a job and returns a welcome message (backwards compatibility alias).
+     *
+     * @param string $welcomemessage The base message to include in the welcome message.
+     * @return string The personalized welcome message including the user's first name.
+     * @throws moodle_exception If the user does not have the required capability.
+     */
+    public static function mod_ardora_save_job($welcomemessage = 'Hello world, ') {
+        return self::save_job($welcomemessage);
+    }
+
+    /**
+     * Returns description of method result value for mod_ardora_save_job.
+     *
+     * @return external_value
      */
     public static function mod_ardora_save_job_returns() {
-        return new external_value(PARAM_TEXT, 'The welcome message + user first name');
+        return self::save_job_returns();
     }
 
     /*========================================================*/
@@ -131,6 +169,8 @@ class mod_ardora_external extends external_api {
         $ardora = $DB->get_record('ardora', ['id' => $params['ardoraid']], '*', MUST_EXIST);
         list($course, $cm) = get_course_and_cm_from_instance($ardora, 'ardora');
 
+        // WEBService: Type hint for context validation in IDE.
+        /** @var \context $context */
         $context = context_module::instance($cm->id);
         self::validate_context($context);
 
@@ -269,4 +309,12 @@ class mod_ardora_external extends external_api {
             ]
         );
     }
+}
+
+// WEBService: Backward compatibility class aliases for mod_ardora.
+if (!class_exists('mod_ardora\external', false)) {
+    class_alias('mod_ardora_external', 'mod_ardora\external');
+}
+if (!class_exists('mod_ardora_save_job', false)) {
+    class_alias('mod_ardora_external', 'mod_ardora_save_job');
 }
