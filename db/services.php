@@ -26,10 +26,11 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+// WEBService: External functions definitions using standard Moodle mod_ardora_external class.
 $functions = [
 
     'mod_ardora_view_ardora' => [
-        'classname'     => 'mod_ardora_external',
+        'classname'     => 'mod_ardora_external', // WEBService: Standard Moodle external classname.
         'methodname'    => 'view_ardora',
         'description'   => 'Simulate the view.php web interface ardora: trigger events, completion, etc...',
         'type'          => 'write',
@@ -38,7 +39,7 @@ $functions = [
         'services'      => [MOODLE_OFFICIAL_MOBILE_SERVICE],
     ],
     'mod_ardora_get_ardoras_by_courses' => [
-        'classname'     => 'mod_ardora_external',
+        'classname'     => 'mod_ardora_external', // WEBService: Standard Moodle external classname.
         'methodname'    => 'get_ardoras_by_courses',
         'description'   => 'Returns a list of files in a provided list of courses, if no list is provided all files that
                             the user can view will be returned.',
@@ -48,8 +49,9 @@ $functions = [
         'services'      => [MOODLE_OFFICIAL_MOBILE_SERVICE],
     ],
     'mod_ardora_save_job' => [
-        'classname'   => 'mod_ardora_save_job',
-        'methodname'  => 'save_job',
+        // WEBService: Point to mod_ardora_external class.
+        'classname'   => 'mod_ardora_external',
+        'methodname'  => 'save_job', // WEBService: Implemented in mod_ardora_external.
         'description' => 'Save student job',
         'ajax'        => true,
         'type'        => 'write',
