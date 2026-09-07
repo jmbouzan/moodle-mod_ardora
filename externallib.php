@@ -15,18 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * ardora module version information
- * created from the "Resource module" version created by 2009 Petr Skoda  {@link http://skodak.org}
+ * WEBService: Legacy externallib.php entry point for mod_ardora.
+ * Resolves legacy external function calls and provides backwards compatibility.
+ *
  * @package    mod_ardora
- * @copyright  2026 José Manuel Bouzán Matanza (https://www.webardora.net)
+ * @category   external
+ * @copyright  2026 José Manuel Bouzán Matanza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2026061002; // WEBService: Updated version to refresh services with mod_ardora_external class.
-$plugin->requires  = 2022112800; // Requires Moodle 4.1.
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '2.0.1'; // WEBService: Updated release version with web services fix.
-$plugin->component = 'mod_ardora'; // Full name of the plugin (used for diagnostics).
-$plugin->cron      = 0;
+// WEBService: Include modern external class definition.
+require_once(__DIR__ . '/classes/external.php');
+
+// WEBService: Ensure legacy and namespaced class aliases are registered for external services.
+if (!class_exists('mod_ardora_save_job')) {
+    class_alias('mod_ardora_external', 'mod_ardora_save_job');
+}
+
+if (!class_exists('mod_ardora\external')) {
+    class_alias('mod_ardora_external', 'mod_ardora\external');
+}

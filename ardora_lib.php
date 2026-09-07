@@ -1085,8 +1085,8 @@ switch ($action) {
  * @param int $t Timestamp.
  * @return string Formatted time or date.
  */
-function mod_ardora_wave_time($t)
-{
+function mod_ardora_wave_time($t) {
+    // WEBService: Opening brace positioned according to Moodle style guidelines.
     // UPDATE V.2 PLUGIN Páginas en servidor.
     if (date('Y-m-d', $t) === date('Y-m-d')) {
         return date('H:i', $t);

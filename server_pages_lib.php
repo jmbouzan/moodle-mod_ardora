@@ -25,7 +25,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+
 
 /**
  * Saves or updates a Server Page entry in Moodle database.
