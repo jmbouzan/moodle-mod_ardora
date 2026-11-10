@@ -24,8 +24,6 @@
 
 namespace mod_ardora\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_ardora course module viewed event class.
  * created from the "Resource module" version created by 2014 Rajesh Taneja <rajesh@moodle.com>

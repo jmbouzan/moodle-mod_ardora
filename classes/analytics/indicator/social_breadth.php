@@ -24,8 +24,6 @@
 
 namespace mod_ardora\analytics\indicator;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class representing the social breadth indicator in the context of activities.
  *

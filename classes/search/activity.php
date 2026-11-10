@@ -24,8 +24,6 @@
 
 namespace mod_ardora\search;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Search area for mod_ardora activities.
  */

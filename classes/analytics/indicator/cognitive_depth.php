@@ -24,8 +24,6 @@
 
 namespace mod_ardora\analytics\indicator;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Cognitive Depth indicator for activities.
  *

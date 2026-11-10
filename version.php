@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026061002; // WEBService: Updated version to refresh services with mod_ardora_external class.
+$plugin->version   = 2026111000; // Fix privacy provider SQL and GDPR data handling.
 $plugin->requires  = 2022112800; // Requires Moodle 4.1.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '2.0.1'; // WEBService: Updated release version with web services fix.
+$plugin->release   = '2.3'; // Fix privacy provider get_contexts_for_userid and data export/deletion.
 $plugin->component = 'mod_ardora'; // Full name of the plugin (used for diagnostics).
 $plugin->cron      = 0;

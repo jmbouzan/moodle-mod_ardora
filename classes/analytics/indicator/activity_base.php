@@ -24,8 +24,6 @@
 
 namespace mod_ardora\analytics\indicator;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Base class for activities in the Community of Inquiry model.
  *

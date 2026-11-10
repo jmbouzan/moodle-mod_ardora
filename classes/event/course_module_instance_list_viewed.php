@@ -24,8 +24,6 @@
 
 namespace mod_ardora\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_ardora instance list viewed event class.
  */

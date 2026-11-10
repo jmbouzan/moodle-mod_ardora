@@ -143,5 +143,41 @@ function xmldb_ardora_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026041800, 'ardora');
     }
 
+    if ($oldversion < 2026091500) {
+        // UPDATE V.2.2 PLUGIN - Create ardora_poster_groups table if it doesn't exist.
+        // This fixes the upgrade path from v1.2 directly to v2.2, where this table
+        // was never created because it was missing from all previous upgrade.php files.
+        $table = new xmldb_table('ardora_poster_groups');
+
+        // Adding fields to table ardora_poster_groups.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('ardora_id', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('title', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('comment', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('image', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('students', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('bg_color', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('bg_image', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('bg_pos', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('bg_repeat', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('dt', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table ardora_poster_groups.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+        // Adding indexes to table ardora_poster_groups.
+        $table->add_index('courseid', XMLDB_INDEX_NOTUNIQUE, ['courseid']);
+        $table->add_index('ardora_id', XMLDB_INDEX_NOTUNIQUE, ['ardora_id']);
+
+        // Conditionally launch create table for ardora_poster_groups.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Ardora savepoint reached.
+        upgrade_mod_savepoint(true, 2026091500, 'ardora');
+    }
+
     return true;
 }

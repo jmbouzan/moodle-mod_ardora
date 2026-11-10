@@ -23,22 +23,23 @@
  */
 namespace mod_ardora\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\approved_contextlist;
+use core_privacy\local\request\userlist;
 use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\writer;
-use core_privacy\local\request\core_user_data_provider;
 
 /**
  * Implementation of the privacy provider for mod_ardora.
  *
  * @copyright  2026 José Manuel Bouzán Matanza
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements core_user_data_provider {
+class provider implements
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\plugin\provider,
+    \core_privacy\local\request\core_userlist_provider {
 
     /**
      * Returns metadata about this plugin.
@@ -50,8 +51,23 @@ class provider implements core_user_data_provider {
         $collection->add_database_table('ardora_jobs', [
             'userid' => 'privacy:metadata:ardora_jobs:userid',
             'courseid' => 'privacy:metadata:ardora_jobs:courseid',
+            'ardora_id' => 'privacy:metadata:ardora_jobs:ardora_id',
             'datajob' => 'privacy:metadata:ardora_jobs:datajob',
+            'activity' => 'privacy:metadata:ardora_jobs:activity',
+            'hstart' => 'privacy:metadata:ardora_jobs:hstart',
+            'hend' => 'privacy:metadata:ardora_jobs:hend',
+            'state' => 'privacy:metadata:ardora_jobs:state',
+            'attemps' => 'privacy:metadata:ardora_jobs:attemps',
+            'points' => 'privacy:metadata:ardora_jobs:points',
         ], 'privacy:metadata:ardora_jobs');
+
+        $collection->add_database_table('ardora_server_pages', [
+            'userid' => 'privacy:metadata:ardora_server_pages:userid',
+            'courseid' => 'privacy:metadata:ardora_server_pages:courseid',
+            'ardora_id' => 'privacy:metadata:ardora_server_pages:ardora_id',
+            'type' => 'privacy:metadata:ardora_server_pages:type',
+            'dt' => 'privacy:metadata:ardora_server_pages:dt',
+        ], 'privacy:metadata:ardora_server_pages');
 
         return $collection;
     }
@@ -64,18 +80,74 @@ class provider implements core_user_data_provider {
      */
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
-        $sql = "
+
+        $params = [
+            'contextlevel' => CONTEXT_MODULE,
+            'modname' => 'ardora',
+            'userid' => $userid,
+        ];
+
+        $sqljobs = "
             SELECT ctx.id
-            FROM {context} ctx
-            JOIN {course_modules} cm ON cm.id = ctx.instanceid
-            JOIN {modules} m ON m.id = cm.module
-            JOIN {ardora} a ON a.id = cm.instance
-            WHERE m.name = 'ardora' AND a.userid = :userid
+              FROM {context} ctx
+              JOIN {course_modules} cm ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextlevel
+              JOIN {modules} m ON m.id = cm.module AND m.name = :modname
+              JOIN {ardora} a ON a.id = cm.instance
+              JOIN {ardora_jobs} aj ON aj.ardora_id = a.ardora_id AND aj.courseid = a.course
+             WHERE aj.userid = :userid
         ";
-        $params = ['userid' => $userid];
-        $contextlist->add_from_sql($sql, $params);
+        $contextlist->add_from_sql($sqljobs, $params);
+
+        $sqlpages = "
+            SELECT ctx.id
+              FROM {context} ctx
+              JOIN {course_modules} cm ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextlevel
+              JOIN {modules} m ON m.id = cm.module AND m.name = :modname
+              JOIN {ardora} a ON a.id = cm.instance
+              JOIN {ardora_server_pages} asp ON asp.ardora_id = a.ardora_id AND asp.courseid = a.course
+             WHERE asp.userid = :userid
+        ";
+        $contextlist->add_from_sql($sqlpages, $params);
 
         return $contextlist;
+    }
+
+    /**
+     * Get the list of users who have data within a context.
+     *
+     * @param userlist $userlist The userlist containing the list of users who have data in this context/plugin combination.
+     */
+    public static function get_users_in_context(userlist $userlist) {
+        $context = $userlist->get_context();
+
+        if (!$context instanceof \context_module) {
+            return;
+        }
+
+        $params = [
+            'cmid' => $context->instanceid,
+            'modname' => 'ardora',
+        ];
+
+        $sqljobs = "
+            SELECT aj.userid
+              FROM {course_modules} cm
+              JOIN {modules} m ON m.id = cm.module AND m.name = :modname
+              JOIN {ardora} a ON a.id = cm.instance
+              JOIN {ardora_jobs} aj ON aj.ardora_id = a.ardora_id AND aj.courseid = a.course
+             WHERE cm.id = :cmid
+        ";
+        $userlist->add_from_sql('userid', $sqljobs, $params);
+
+        $sqlpages = "
+            SELECT asp.userid
+              FROM {course_modules} cm
+              JOIN {modules} m ON m.id = cm.module AND m.name = :modname
+              JOIN {ardora} a ON a.id = cm.instance
+              JOIN {ardora_server_pages} asp ON asp.ardora_id = a.ardora_id AND asp.courseid = a.course
+             WHERE cm.id = :cmid
+        ";
+        $userlist->add_from_sql('userid', $sqlpages, $params);
     }
 
     /**
@@ -84,15 +156,51 @@ class provider implements core_user_data_provider {
      * @param approved_contextlist $contextlist The list of approved contexts to export information for.
      */
     public static function export_user_data(approved_contextlist $contextlist) {
+        global $DB;
+
+        if (empty($contextlist->count())) {
+            return;
+        }
+
         $userid = $contextlist->get_user()->id;
 
         foreach ($contextlist->get_contexts() as $context) {
-            // Aquí debes implementar la lógica de exportación de datos.
-            // Por ejemplo, se puede consultar la base de datos y luego escribir la información con writer::with_context().
-            $jobs = get_user_ardora_jobs_for_context($userid, $context);
-            foreach ($jobs as $job) {
-                writer::with_context($context)
-                    ->export_data(['ardora_job'], (object)$job);
+            if ($context->contextlevel != CONTEXT_MODULE) {
+                continue;
+            }
+
+            $cm = get_coursemodule_from_id('ardora', $context->instanceid);
+            if (!$cm) {
+                continue;
+            }
+
+            $ardora = $DB->get_record('ardora', ['id' => $cm->instance]);
+            if (!$ardora) {
+                continue;
+            }
+
+            $jobs = $DB->get_records('ardora_jobs', [
+                'userid' => $userid,
+                'courseid' => $ardora->course,
+                'ardora_id' => $ardora->ardora_id,
+            ]);
+            if (!empty($jobs)) {
+                writer::with_context($context)->export_data(
+                    ['ardora_jobs'],
+                    (object)['jobs' => array_values($jobs)]
+                );
+            }
+
+            $pages = $DB->get_records('ardora_server_pages', [
+                'userid' => $userid,
+                'courseid' => $ardora->course,
+                'ardora_id' => $ardora->ardora_id,
+            ]);
+            if (!empty($pages)) {
+                writer::with_context($context)->export_data(
+                    ['ardora_server_pages'],
+                    (object)['server_pages' => array_values($pages)]
+                );
             }
         }
     }
@@ -100,16 +208,35 @@ class provider implements core_user_data_provider {
     /**
      * Deletes all user data for the specified context.
      *
-     * This function removes all user-related records from the `ardora_jobs` table
-     * for the given course context.
-     *
-     * @param \context $context The context for which to delete user data. Typically, a course context.
-     * @return void This function does not return a value.
+     * @param \context $context The context for which to delete user data.
+     * @return void
      */
     public static function delete_data_for_all_users_in_context(\context $context) {
-        // Implementa la lógica para eliminar todos los datos de usuario en el contexto proporcionado.
         global $DB;
-        $DB->delete_records('ardora_jobs', ['courseid' => $context->instanceid]);
+
+        if ($context->contextlevel != CONTEXT_MODULE) {
+            return;
+        }
+
+        $cm = get_coursemodule_from_id('ardora', $context->instanceid);
+        if (!$cm) {
+            return;
+        }
+
+        $ardora = $DB->get_record('ardora', ['id' => $cm->instance]);
+        if (!$ardora) {
+            return;
+        }
+
+        $DB->delete_records('ardora_jobs', [
+            'courseid' => $ardora->course,
+            'ardora_id' => $ardora->ardora_id,
+        ]);
+
+        $DB->delete_records('ardora_server_pages', [
+            'courseid' => $ardora->course,
+            'ardora_id' => $ardora->ardora_id,
+        ]);
     }
 
     /**
@@ -119,11 +246,78 @@ class provider implements core_user_data_provider {
      */
     public static function delete_data_for_user(approved_contextlist $contextlist) {
         global $DB;
+
+        if (empty($contextlist->count())) {
+            return;
+        }
+
         $userid = $contextlist->get_user()->id;
 
         foreach ($contextlist->get_contexts() as $context) {
-            // Implementa la lógica para eliminar los datos del usuario.
-            $DB->delete_records('ardora_jobs', ['userid' => $userid, 'courseid' => $context->instanceid]);
+            if ($context->contextlevel != CONTEXT_MODULE) {
+                continue;
+            }
+
+            $cm = get_coursemodule_from_id('ardora', $context->instanceid);
+            if (!$cm) {
+                continue;
+            }
+
+            $ardora = $DB->get_record('ardora', ['id' => $cm->instance]);
+            if (!$ardora) {
+                continue;
+            }
+
+            $DB->delete_records('ardora_jobs', [
+                'userid' => $userid,
+                'courseid' => $ardora->course,
+                'ardora_id' => $ardora->ardora_id,
+            ]);
+
+            $DB->delete_records('ardora_server_pages', [
+                'userid' => $userid,
+                'courseid' => $ardora->course,
+                'ardora_id' => $ardora->ardora_id,
+            ]);
         }
+    }
+
+    /**
+     * Delete multiple users within a single context.
+     *
+     * @param approved_userlist $userlist The approved context and user information to delete information for.
+     */
+    public static function delete_data_for_users(approved_userlist $userlist) {
+        global $DB;
+
+        $context = $userlist->get_context();
+        if ($context->contextlevel != CONTEXT_MODULE) {
+            return;
+        }
+
+        $userids = $userlist->get_userids();
+        if (empty($userids)) {
+            return;
+        }
+
+        $cm = get_coursemodule_from_id('ardora', $context->instanceid);
+        if (!$cm) {
+            return;
+        }
+
+        $ardora = $DB->get_record('ardora', ['id' => $cm->instance]);
+        if (!$ardora) {
+            return;
+        }
+
+        list($usersql, $userparams) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
+        $params = array_merge($userparams, [
+            'courseid' => $ardora->course,
+            'ardora_id' => $ardora->ardora_id,
+        ]);
+
+        $select = "courseid = :courseid AND ardora_id = :ardora_id AND userid $usersql";
+        $DB->delete_records_select('ardora_jobs', $select, $params);
+        $DB->delete_records_select('ardora_server_pages', $select, $params);
     }
 }

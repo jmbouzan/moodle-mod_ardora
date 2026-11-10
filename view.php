@@ -23,9 +23,9 @@
  */
 
 require('../../config.php');
-require_once($CFG->dirroot.'/mod/ardora/lib.php');
-require_once($CFG->dirroot.'/mod/ardora/locallib.php');
-require_once($CFG->libdir.'/completionlib.php');
+require_once($CFG->dirroot . '/mod/ardora/lib.php');
+require_once($CFG->dirroot . '/mod/ardora/locallib.php');
+require_once($CFG->libdir . '/completionlib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID.
 $r = optional_param('r', 0, PARAM_INT);  // Ardora instance ID.
@@ -38,7 +38,6 @@ if ($r) {
         throw new moodle_exception('invalidaccessparameter');
     }
     $cm = get_coursemodule_from_instance('ardora', $ardora->id, $ardora->course, false, MUST_EXIST);
-
 } else {
     if (!$cm = get_coursemodule_from_id('ardora', $id)) {
         ardora_redirect_if_migrated(0, $id);
@@ -49,7 +48,7 @@ if ($r) {
 
 $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 
- // Save courseid to cache.
+// Save courseid to cache.
 $cache = \cache::make('mod_ardora', 'courseid_cache');
 $cache->set('current_courseid', $course->id);
 
@@ -57,7 +56,7 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/ardora:view', $context);
 
- // Completion and trigger events.
+// Completion and trigger events.
 ardora_view($ardora, $course, $cm, $context);
 
 $PAGE->set_url('/mod/ardora/view.php', ['id' => $cm->id]);
@@ -79,7 +78,7 @@ if (count($files) < 1) {
 $ardora->mainfile = $file->get_filename();
 $displaytype = ardora_get_final_display_type($ardora);
 
-if ($ardora->mainfile === 'index.php' || $ardora->mainfile === 'index.html') { // UPDATE V.2 PLUGIN Páginas en servidor.
+if ($ardora->mainfile === 'index.php' || $ardora->mainfile === 'index.html' || $ardora->mainfile === 'index.htm') {
     ardora_display_server_page($ardora, $cm, $course, $file, $displaytype);
     die;
 }
@@ -89,16 +88,18 @@ if ($displaytype == RESOURCELIB_DISPLAY_OPEN || $displaytype == RESOURCELIB_DISP
 }
 
 // Don't redirect teachers, otherwise they can not access course or module settings.
-if ($redirect && !course_get_format($course)->has_view_page() &&
-        (has_capability('moodle/course:manageactivities', $context) ||
-        has_capability('moodle/course:update', context_course::instance($course->id)))) {
+if (
+    $redirect && !course_get_format($course)->has_view_page() &&
+    (has_capability('moodle/course:manageactivities', $context) ||
+        has_capability('moodle/course:update', context_course::instance($course->id)))
+) {
     $redirect = false;
 }
 
 if ($redirect && !$forceview) {
     // Coming from course page or url index page.
     // This redirect trick solves caching problems when tracking views ;-).
-    $path = '/'.$context->id.'/mod_ardora/content/'.$ardora->revision.$file->get_filepath().$file->get_filename();
+    $path = '/' . $context->id . '/mod_ardora/content/' . $ardora->revision . $file->get_filepath() . $file->get_filename();
     $fullurl = moodle_url::make_file_url('/pluginfile.php', $path, $displaytype == RESOURCELIB_DISPLAY_DOWNLOAD);
     redirect($fullurl);
 }
